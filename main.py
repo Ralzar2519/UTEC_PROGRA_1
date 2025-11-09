@@ -1,6 +1,8 @@
+from statistics import variance
+
 import dragonbound
 mundo = []
-
+variance = "jbhjghcgghd"
 
 entrada = input('Escribe init para cargar el mapa: ')
 
