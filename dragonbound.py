@@ -75,25 +75,36 @@ def draw_players(mundo):
         Returns:
             La matriz mundo con los colores de los jugadores incorporados en su posicion.
     """
-     mundo[10][7] = Back.MAGENTA
-     mundo[10][22] = Back.MAGENTA
+    mundo[10][7] = Back.MAGENTA
+    mundo[10][22] = Back.MAGENTA
 
 def draw_cars(mundo):
     """
-        Cambia los valores de la matriz mundo con los color  en las posiciones donde debe estar ubicado el sol
+        Cambia los valores de la matriz mundo con los colores respectivos de los carritos del jugador A y B en las posiciones
+        donde debe estar ubicado.
 
         Args:
             mundo (list): mundo retornado con por la funcion draw_world_empty()
 
         Returns:
-            La matriz mundo con los colores del sol incorporados en su posicion.
-        """
-     for col in range(6,9):
+            La matriz mundo con los colores de los carrtitos de A y B incorporados en su posicion.
+    """
+    for col in range(6,9):
          mundo[11][col] = Back.CYAN #carrito uno
-     for col in range(21,24):
+    for col in range(21,24):
          mundo[11][col] = Back.GREEN #carrito dos
 
 def draw_stones(mundo):
+    """
+        Cambia los valores de la matriz mundo con el color de la piedra (WHITE) en las posiciones
+        donde debe estar ubicado.
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores de las piedras  incorporados en su posicion.
+    """
     mundo[11][14] = mundo[11][15] = Back.WHITE
     for fila in range(12,17):
         if fila == 12:
@@ -117,6 +128,16 @@ def draw_stones(mundo):
                 mundo[fila][c] = Back.WHITE
 
 def draw_concretes(mundo):
+    """
+        Cambia los valores de la matriz mundo con el color del comcreto (BLACK) en las posiciones
+        donde debe estar ubicado.
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores del concreto incorporados en su posicion.
+    """
     for fila in range(13,16):
         if fila == 13:
             for c in list(range(10,20)):
@@ -131,6 +152,16 @@ def draw_concretes(mundo):
                 mundo[fila][c] = Back.BLACK
 
 def draw_bricks(mundo):
+    """
+        Cambia los valores de la matriz mundo con el color de los ladrillos (ROJO) en las posiciones
+        donde debe estar ubicado.
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores de los ladrillos  incorporados en su posicion.
+    """
     for fila in range(16,20):
         if fila == 16:
             lista = list(range(7, 11)) + list(range(19, 23))
@@ -146,9 +177,18 @@ def draw_bricks(mundo):
             for c in list(range(8,22)):
                 mundo[fila][c] = Back.RED
 
-        # Añade la cantidad de pixeles pintadas de
 def print_world(mundo):
-  for fila in range(20):
+    """
+        Cambia los valores de la matriz mundo con el color de la piedra (WHITE) en las posiciones
+        donde debe estar ubicado.
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores de las piedras  incorporados en su posicion.
+        """
+    for fila in range(20):
         for col in range(30):
             print(mundo[fila][col] + '   ', end='')
         print()
