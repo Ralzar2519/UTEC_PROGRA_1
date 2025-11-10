@@ -1,5 +1,5 @@
 from colorama import Back, init
-from math import pi, sin, cos,sqrt, radians
+from math import tan, cos, sqrt, sin
 
 init(autoreset =  True)
 
@@ -107,37 +107,38 @@ def print_world(mundo):
         print()
 
 def calculate_velocity(angle, gravity = 9.8 , distance = 15):
-
-    angle_rad = radians(angle)
-
-    vi_perfecta = sqrt( (gravity * distance)/(2*cos(angle_rad)*sin(angle_rad)) )
+    vi_perfecta = sqrt( (gravity * distance)/(2*cos(angle)*sin(angle)) )
     return vi_perfecta
 
 
 
-def draw_missile_launch(v_inicial, angle, mapa, x0=8, y0=11, steps=15, g=9.8):
-    v_x = v_inicial * cos(angle)
-    v_y = v_inicial * sin(angle)
-    tiempo_vuelo = (v_y / 9.8) * 2
-    y_max = 11 + (v_inicial * pow(sin(angle), 2)) // (2 * 9.8)
-    for m in range(15): time_act = tiempo_vuelo / (15 - m)
-    d_x = 8 + v_x * time_act
-    d_x = round(d_x)
-    d_y = 11 - abs(v_y * time_act - 0.5 * 9.8 * pow(time_act, 2))
-    d_y = round(d_y)
-    if d_y <= y_max: mapa[d_y][d_x] = Back.CYAN
-    print_world(mapa)
-    print() else: d_y =
+def draw_missile_launch(v_inicial, angle, mapa, player):
+
+    if player == 'A':
+        for x in range(1, 16):
+            y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
+            saved_mapa = mapa[10 - round(y)][x + 7]
+            mapa[10 - round(y)][x + 7] = Back.CYAN
+            print_world(mapa)
+            print(10 - round(y),x + 7)
+            mapa[10 - round(y)][x+ 7] = saved_mapa
+            if(x == 15):
+                finish_game(player)
+
+    else:
+        for x in range(1,16):
+            y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
+            saved_mapa = mapa[10 - round(y)][22 - x]
+            mapa[10 - round(y)][22 - x] = Back.GREEN
+            print_world(mapa)
+            print(10 - round(y),22 - x )
+            mapa[10 - round(y)][22 - x] = saved_mapa
+            if(x == 15):
+                finish_game(player)
 
 
-        # pintar temporalmente la bala en cian y renderizar
-        saved = mapa[iy][ix]
-        mapa[iy][ix] = Back.CYAN
-        print_world(mapa)
-        print()
-        # restaurar el valor anterior (para que el mapa base no sea sobrescrito)
-        mapa[iy][ix] = saved
-
+def finish_game(player):
+    print("El jugador "+ player + " es el ganador")
 
 
 
