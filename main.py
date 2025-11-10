@@ -5,6 +5,17 @@ mundo = []
 palabra_clave = input('Escribe init para cargar el mapa: ')
 
 def init_game(entrada):
+    """
+    Genera resultados en funcion de la frase que ingresa el usuario.
+
+    Args:
+        entrada: dato string que representa lo que usuario ha escrito en consola
+
+    Returns:
+        Si el usuario ingresa la palabra init, se imprime la bienvenida al mundo junto con el mapa
+        Si el usario ingresa una palabra diferente a 'init' entonces se le pide que ingrese la palabra correcta mediante la
+        recursividad del funcion
+    """
     if entrada == 'init':
         print('Welcome to the world of dragobound 2d xyz')
         mundo_vacio = dragonbound.draw_world_empty(mundo)
@@ -15,8 +26,8 @@ def init_game(entrada):
     else:
         print('Ingrese la palabra correcta para cargar el mapa')
         init_game(palabra_clave)
-        return False
 
+#Evita crear una estructura de control (if-else) muy extenso
 if init_game(palabra_clave) == True:
     accion = input ( 'Input Exit (E) or Launch (L): ')
 

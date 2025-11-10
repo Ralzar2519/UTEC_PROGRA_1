@@ -1,4 +1,3 @@
-"""
 # 🐉 Dragonbound 2D XYZ
 
 Proyecto desarrollado para el curso **Programación I (CS1111 - UTEC)**.  
@@ -164,5 +163,4 @@ Módulo que define las funciones gráficas y físicas del juego.
 - Detección de colisión entre proyectil y estructuras.  
 - Implementar viento o variación de gravedad.  
 - Sistema de rondas con puntuación.  
-- Efectos visuales y temporización entre cuadros.  
-"""
+- Efectos visuales y temporización entre cuadros.

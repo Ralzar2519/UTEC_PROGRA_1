@@ -4,6 +4,15 @@ from math import tan, cos, sqrt, sin
 init(autoreset =  True)
 
 def draw_world_empty(mundo = [] ):
+    """
+    Crea una matriz vacia dpnde se coloca Back.BLUE entre cada interseccion fila-columna
+
+    Args:
+        mundo (list): Lista vacia
+
+    Returns:
+        Matriz 20 x 30 contenida en la variable mundo
+    """
 
     #Completa el mundo con pixeles de color azul para facilitar el dibujo,
     #despues en draw_world nos enfocamos en dibujar el ladrillo, concreto, los carritos y los jugadores
@@ -14,6 +23,17 @@ def draw_world_empty(mundo = [] ):
     return mundo
 
 def draw_world(mundo):
+    """
+    Invoca a las funciones draw_sun, draw_players, draw_cars, draw_stones, draw_concrete y draw bricks para que
+    modifiquen la variable mundo. De manera que cuando se use la funcion print_world() se pueda mostrar el mundo con
+    todos sus elementos
+
+    Args:
+        mundo (list): Lista retornada previamente por la funcion draw_world_empty()
+
+    Returns:
+        mundo (list): Mapa del mundo con todos los elementos incorporados
+    """
     draw_sun(mundo)
     draw_players(mundo)
     draw_cars(mundo)
@@ -24,6 +44,15 @@ def draw_world(mundo):
     return mundo
 
 def draw_sun(mundo):
+    """
+    Cambia los valores de la matriz mundo con los color YELLOW en las posiciones donde debe estar ubicado el sol
+
+    Args:
+        mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+    Returns:
+        La matriz mundo con los colores del sol incorporados en su posicion.
+    """
     for f in range(4):
         for c in range(26, 30):
             if(f == 0 and c == 26):
@@ -37,10 +66,28 @@ def draw_sun(mundo):
             mundo[f][c] = Back.YELLOW
 
 def draw_players(mundo):
+    """
+        Cambia los valores de la matriz mundo con los color MAGENTA en las posiciones donde debe estar ubicado los jugadores
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores de los jugadores incorporados en su posicion.
+    """
      mundo[10][7] = Back.MAGENTA
      mundo[10][22] = Back.MAGENTA
 
 def draw_cars(mundo):
+    """
+        Cambia los valores de la matriz mundo con los color  en las posiciones donde debe estar ubicado el sol
+
+        Args:
+            mundo (list): mundo retornado con por la funcion draw_world_empty()
+
+        Returns:
+            La matriz mundo con los colores del sol incorporados en su posicion.
+        """
      for col in range(6,9):
          mundo[11][col] = Back.CYAN #carrito uno
      for col in range(21,24):
@@ -107,12 +154,39 @@ def print_world(mundo):
         print()
 
 def calculate_velocity(angle, gravity = 9.8 , distance = 15):
+    """
+    Calcula la velocidad inicial que debe ser lanzado la bala por el jugador para que realice un tiro perfecto.
+
+    Args:
+    angle: Angulo introducido por el jugador y convertido en radianes
+    Gravity: Argumento por defecto con valor igual a 9.8
+    Distance: Argumento por defecto con valor igual a 15 que representa la distancia horizontal entre los jugadores
+
+    Returns:
+    Vi_perfecta: Velocidad inicial con la que debe ser lanzada la bala para un tiro perfecto
+    """
     vi_perfecta = sqrt( (gravity * distance)/(2*cos(angle)*sin(angle)) )
     return vi_perfecta
 
 
 
 def draw_missile_launch(v_inicial, angle, mapa, player):
+    """
+    Dibuja la trayectoria de la bala lanzada por un jagador, pintando el espacio que ocupa la bala segun el color del
+    jugador sea A o B.
+
+    Args:
+    v_inicial : Velocidad inicial en la que debe lanzar la bala para que elimine al otro jugador
+    angle : Angulo introducido por el jugador y convertido en radianes
+    mapa : Matriz que contiene los colores del mundo
+    player: Representa si el jugador es A o B
+
+    Returns:
+    Muestra la trayectoria de la bala dependiendo de quien es player, mediante el calculo de la posicion y cuando la bala
+    esta en una ppsicion x_inicial + x, siendo x un valor que va desde  1 a 15. Cada posicion de la bala se imprime 15 veces
+    y entre cada impresion hay un salto de linea. El numero 15 indica la distancia horizantal entre los jugadores. Cuando x es 15,
+    se llama a la funcion finish_game() debido a que la bala llego a la posicion que se ublica el jugador rival.
+    """
 
     if player == 'A':
         for x in range(1, 16):
@@ -120,7 +194,7 @@ def draw_missile_launch(v_inicial, angle, mapa, player):
             saved_mapa = mapa[10 - round(y)][x + 7]
             mapa[10 - round(y)][x + 7] = Back.CYAN
             print_world(mapa)
-            print(10 - round(y),x + 7)
+            print()
             mapa[10 - round(y)][x+ 7] = saved_mapa
             if(x == 15):
                 finish_game(player)
@@ -131,14 +205,22 @@ def draw_missile_launch(v_inicial, angle, mapa, player):
             saved_mapa = mapa[10 - round(y)][22 - x]
             mapa[10 - round(y)][22 - x] = Back.GREEN
             print_world(mapa)
-            print(10 - round(y),22 - x )
+            print()
             mapa[10 - round(y)][22 - x] = saved_mapa
             if(x == 15):
                 finish_game(player)
 
 
 def finish_game(player):
-    print("El jugador "+ player + " es el ganador")
+    """
+    Imprime una frase que indica que durante el turno de player, el gano.
+    Args:
+        player: Representa si el jugador es A o B.
+
+    Retorns:
+        str: Frase donde indica que player gano a su rival
+    """
+    return "El jugador "+ player + " es el ganador"
 
 
 
