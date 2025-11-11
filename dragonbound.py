@@ -1,5 +1,7 @@
 from colorama import Back, init
 from math import tan, cos, sqrt, sin
+import os
+from time import sleep
 
 init(autoreset =  True)
 
@@ -208,7 +210,8 @@ def calculate_velocity(angle, gravity = 9.8 , distance = 15):
     vi_perfecta = sqrt( (gravity * distance)/(2*cos(angle)*sin(angle)) )
     return vi_perfecta
 
-
+def limpiar_pantalla():
+    os.system('cls')
 
 def draw_missile_launch(v_inicial, angle, mapa, player):
     """
@@ -233,22 +236,24 @@ def draw_missile_launch(v_inicial, angle, mapa, player):
             y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
             saved_mapa = mapa[10 - round(y)][x + 7]
             mapa[10 - round(y)][x + 7] = Back.CYAN
+
+            limpiar_pantalla()
             print_world(mapa)
-            print()
+            sleep(1)
+
             mapa[10 - round(y)][x+ 7] = saved_mapa
-            if(x == 15):
-                finish_game(player)
 
     else:
         for x in range(1,16):
             y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
             saved_mapa = mapa[10 - round(y)][22 - x]
             mapa[10 - round(y)][22 - x] = Back.GREEN
+
+            limpiar_pantalla()
             print_world(mapa)
-            print()
+            sleep(1)
             mapa[10 - round(y)][22 - x] = saved_mapa
-            if(x == 15):
-                finish_game(player)
+
 
 
 def finish_game(player):
@@ -260,7 +265,7 @@ def finish_game(player):
     Retorns:
         str: Frase donde indica que player gano a su rival
     """
-    return "El jugador "+ player + " es el ganador"
+    print("El jugador "+ player + " es el ganador")
 
 
 
