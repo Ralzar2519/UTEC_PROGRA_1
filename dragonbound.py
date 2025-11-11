@@ -211,6 +211,9 @@ def calculate_velocity(angle, gravity = 9.8 , distance = 15):
     return vi_perfecta
 
 def limpiar_pantalla():
+    """
+    Limpia la consola mediante un comando del sistema operativo
+    """
     os.system('cls')
 
 def draw_missile_launch(v_inicial, angle, mapa, player):
