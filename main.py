@@ -1,61 +1,69 @@
-import dragonbound
-from dragonbound import limpiar_pantalla
+
+#IMPORTACION DE LOS MODULOS DRAGONBOUND, MATH, TIME
+from dragonbound import limpiar_pantalla, draw_world, draw_world_empty, print_world, calculate_velocity, draw_missile_launch, finish_game
 from math import radians
 from time import sleep
 
-from dragonbound import finish_game
-
+#Variable general
 mundo = []
 
 while True:
-
     entrada = input('Escribe init para cargar el mapa: ')
     limpiar_pantalla()
     sleep(0.5)
-    print()
 
     if entrada  == 'init':
         print('Welcome to the world of dragonbound 2d xyz',)
         print()
-        mundo_vacio = dragonbound.draw_world_empty(mundo)
-        mapa = dragonbound.draw_world(mundo_vacio)
-        dragonbound.print_world(mapa)
+        mundo_vacio = draw_world_empty(mundo)
+        mapa = draw_world(mundo_vacio)
+        print_world(mapa)
 
         accion = input('Input Exit (E) or Launch (L): ')
 
-
         if accion == 'L':
-            print('Turno jugador A')
-            player = 'A'
-            angulo = int(input('Ingresa el angulo de tiro [1-70]: '))
-            angulo_rad = radians(angulo)
-            limpiar_pantalla()
-            sleep(0.5)
+            player = input('Imput player: ')
 
-            mundo_vacio = dragonbound.draw_world_empty(mundo)
-            mapa = dragonbound.draw_world(mundo_vacio)
+            if player == 'A':
+                angulo = int(input('Ingresa el angulo de tiro [1-70]: '))
+                angulo_rad = radians(angulo)
+                limpiar_pantalla()
+                sleep(0.5)
 
-            velocidad_inicial = dragonbound.calculate_velocity(angulo_rad)
-            dragonbound.draw_missile_launch(velocidad_inicial, angulo_rad, mapa, player)
-            dragonbound.finish_game(player)
+                mundo_vacio = draw_world_empty(mundo)
+                mapa = draw_world(mundo_vacio)
 
+                velocidad_inicial = calculate_velocity(angulo_rad)
+                draw_missile_launch(velocidad_inicial, angulo_rad, mapa, player)
+                finish_game(player)
+
+                accion = input('Input Exit (E) or Launch (L): ')
+
+                if accion == 'E':
+                    break
+
+
+            else:
+                angulo = int(input('Ingresa el angulo de tiro [1-70]: '))
+                angulo_rad = radians(angulo)
+                limpiar_pantalla()
+                sleep(0.5)
+
+                #Modificacion del mapa
+                mundo_vacio = draw_world_empty(mundo)
+                mapa = draw_world(mundo_vacio)
+
+                velocidad_inicial = calculate_velocity(angulo_rad)
+                draw_missile_launch(velocidad_inicial, angulo_rad, mapa, player)
+                finish_game(player)
+
+                accion = input('Input Exit (E) or Launch (L): ')
+
+                if accion == 'E':
+                    break
+
+        if accion == 'E':
             break
-
-        else:
-            print('Turno jugador B')
-            player = 'B'
-            angulo = int(input('Ingresa el angulo de tiro [1-70]: '))
-            angulo_rad = radians(angulo)
-
-            mundo_vacio = dragonbound.draw_world_empty(mundo)
-            mapa = dragonbound.draw_world(mundo_vacio)
-
-            velocidad_inicial = dragonbound.calculate_velocity(angulo_rad)
-            dragonbound.draw_missile_launch(velocidad_inicial, angulo_rad, mapa, player)
-            dragonbound.finish_game(player)
-            break
-
-
     else:
         print('Ingrese la palabra correcta para cargar el mapa.')
 

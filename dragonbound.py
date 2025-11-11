@@ -1,7 +1,9 @@
+#IMPORTACION DE MODULOS y METODOS
 from colorama import Back, init
 from math import tan, cos, sqrt, sin
 import os
 from time import sleep
+
 
 init(autoreset =  True)
 
@@ -16,15 +18,13 @@ def draw_world_empty(mundo = [] ):
         Matriz 20 x 30 contenida en la variable mundo
     """
 
-    #Completa el mundo con pixeles de color azul para facilitar el dibujo,
-    #despues en draw_world nos enfocamos en dibujar el ladrillo, concreto, los carritos y los jugadores
     for f in range(20):
         unafila = [Back.BLUE]* 30
         mundo.append(unafila)
 
     return mundo
 
-def draw_world(mundo):
+def draw_world(mundo : list[list]) -> list[list]:
     """
     Invoca a las funciones draw_sun, draw_players, draw_cars, draw_stones, draw_concrete y draw bricks para que
     modifiquen la variable mundo. De manera que cuando se use la funcion print_world() se pueda mostrar el mundo con
@@ -45,7 +45,7 @@ def draw_world(mundo):
 
     return mundo
 
-def draw_sun(mundo):
+def draw_sun(mundo : list[list]) -> list[list]:
     """
     Cambia los valores de la matriz mundo con los color YELLOW en las posiciones donde debe estar ubicado el sol
 
@@ -57,17 +57,17 @@ def draw_sun(mundo):
     """
     for f in range(4):
         for c in range(26, 30):
-            if(f == 0 and c == 26):
+            if f == 0 and c == 2:
                 continue
-            if(f == 2 and c == 26):
+            if f == 2 and c == 26:
                 continue
-            if(f == 3 and c == 27):
+            if f == 3 and c == 27:
                 continue
-            if(f == 3 and c == 29):
+            if f == 3 and c == 29 :
                 continue
             mundo[f][c] = Back.YELLOW
 
-def draw_players(mundo):
+def draw_players(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con los color MAGENTA en las posiciones donde debe estar ubicado los jugadores
 
@@ -80,7 +80,7 @@ def draw_players(mundo):
     mundo[10][7] = Back.MAGENTA
     mundo[10][22] = Back.MAGENTA
 
-def draw_cars(mundo):
+def draw_cars(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con los colores respectivos de los carritos del jugador A y B en las posiciones
         donde debe estar ubicado.
@@ -96,7 +96,7 @@ def draw_cars(mundo):
     for col in range(21,24):
          mundo[11][col] = Back.GREEN #carrito dos
 
-def draw_stones(mundo):
+def draw_stones(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con el color de la piedra (WHITE) en las posiciones
         donde debe estar ubicado.
@@ -129,7 +129,7 @@ def draw_stones(mundo):
             for c in lista:
                 mundo[fila][c] = Back.WHITE
 
-def draw_concretes(mundo):
+def draw_concretes(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con el color del comcreto (BLACK) en las posiciones
         donde debe estar ubicado.
@@ -153,7 +153,7 @@ def draw_concretes(mundo):
             for c in lista:
                 mundo[fila][c] = Back.BLACK
 
-def draw_bricks(mundo):
+def draw_bricks(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con el color de los ladrillos (ROJO) en las posiciones
         donde debe estar ubicado.
@@ -179,7 +179,7 @@ def draw_bricks(mundo):
             for c in list(range(8,22)):
                 mundo[fila][c] = Back.RED
 
-def print_world(mundo):
+def print_world(mundo : list[list]) -> list[list]:
     """
         Cambia los valores de la matriz mundo con el color de la piedra (WHITE) en las posiciones
         donde debe estar ubicado.
@@ -195,7 +195,7 @@ def print_world(mundo):
             print(mundo[fila][col] + '   ', end='')
         print()
 
-def calculate_velocity(angle, gravity = 9.8 , distance = 15):
+def calculate_velocity(angle : float , gravity = 9.8 , distance = 15) -> float:
     """
     Calcula la velocidad inicial que debe ser lanzado la bala por el jugador para que realice un tiro perfecto.
 
@@ -207,6 +207,7 @@ def calculate_velocity(angle, gravity = 9.8 , distance = 15):
     Returns:
     Vi_perfecta: Velocidad inicial con la que debe ser lanzada la bala para un tiro perfecto
     """
+    #El sqrt representa que se esta aplicando raiz cuadrada
     vi_perfecta = sqrt( (gravity * distance)/(2*cos(angle)*sin(angle)) )
     return vi_perfecta
 
@@ -237,26 +238,38 @@ def draw_missile_launch(v_inicial, angle, mapa, player):
     if player == 'A':
         for x in range(1, 16):
             y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
-            saved_mapa = mapa[10 - round(y)][x + 7]
-            mapa[10 - round(y)][x + 7] = Back.CYAN
+
+            #Posiciones dentro del mundo:
+            #pos_x indica el numero de columna que ocupa la bala en la matriz mundo
+            #pos_y indica el numero de fila que ocupa la bala en la matriz mundo
+            pos_x = 7 + x
+            pos_y = 10 - round(y)
+
+            color_guardado = mapa[pos_y][pos_x]
+            mapa[pos_y][pos_x] = Back.CYAN
 
             limpiar_pantalla()
             print_world(mapa)
-            sleep(1)
+            sleep(0.5)
 
-            mapa[10 - round(y)][x+ 7] = saved_mapa
+            mapa[pos_y][pos_x] = color_guardado
 
     else:
         for x in range(1,16):
             y = x * tan(angle) - (9.8 * x ** 2) / (2 * v_inicial ** 2 * cos(angle) ** 2)
-            saved_mapa = mapa[10 - round(y)][22 - x]
-            mapa[10 - round(y)][22 - x] = Back.GREEN
+
+            pos_x = 22 - x
+            pos_y = 10 - round(y)
+
+            #Guardado del valor original del espacio que ocupara la bala
+            color_guardado = mapa[pos_y][pos_x ]
+            mapa[pos_y][pos_x ] = Back.GREEN
 
             limpiar_pantalla()
             print_world(mapa)
-            sleep(1)
-            mapa[10 - round(y)][22 - x] = saved_mapa
+            sleep(0.5)
 
+            mapa[10 - round(y)][pos_x ] = color_guardado
 
 
 def finish_game(player):
@@ -269,6 +282,7 @@ def finish_game(player):
         str: Frase donde indica que player gano a su rival
     """
     print("El jugador "+ player + " es el ganador")
+
 
 
 
